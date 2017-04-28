@@ -8,7 +8,11 @@ require 'sinatra/reloader'
 get '/' do
   guess = params['guess']
   message = check_guess(guess)
-  erb :index, :locals => {:number => @@secret_number, :message => message, :color => @@color}
+  if params['cheat']
+    erb :index, :locals => {:number => @@secret_number, :message => message + "<br><p>The SECRET NUMBER is #{@@secret_number}</p>", :color => @@color}
+  else
+    erb :index, :locals => {:number => @@secret_number, :message => message, :color => @@color}
+  end
 end
 
 def check_guess(guess)
